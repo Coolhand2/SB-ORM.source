@@ -1,6 +1,10 @@
 <?php
 
-class LimitClause implements Clause
+namespace framework\orm\clauses;
+
+use framework\orm\support\SQLRender;
+
+class LimitClause implements Clause, SQLRender
 {
 
     public function __construct()
@@ -18,12 +22,6 @@ class LimitClause implements Clause
     public function render()
     {
         return "LIMIT $this->_offset, $this->_limit ";
-    }
-
-    public function parameters()
-    {
-        return array(
-        );
     }
 
 }

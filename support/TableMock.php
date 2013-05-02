@@ -17,6 +17,10 @@
  * @link       http://www.shiftedbits.net/
  */
 
+namespace framework\orm\support;
+
+use framework\orm\support\Database;
+
 /**
  * TableMock Class
  * This class provides a simple interface for another class to analize a named
@@ -126,11 +130,11 @@ class TableMock
     public static function getType($type)
     {
         if (preg_match("(int|integer|decimal|float|double|bit)", $type)) {
-            return PDO::PARAM_INT;
+            return \PDO::PARAM_INT;
         } else if (preg_match("(blob|binary)", $type)) {
-            return PDO::PARAM_LOB;
+            return \PDO::PARAM_LOB;
         }
-        return PDO::PARAM_STR;
+        return \PDO::PARAM_STR;
     }
 
 }

@@ -1,6 +1,8 @@
 <?php
 
+namespace framework\orm\destinations;
+
 interface Destination
 {
-    public function render();
+
 }

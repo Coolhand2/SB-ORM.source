@@ -17,6 +17,10 @@
  * @link       http://www.shiftedbits.net/
  */
 
+namespace framework\orm\support;
+
+use framework\orm\support\Database;
+
 /**
  * Database Class
  * This class provides nothing more than a simplified extension to PDO, to
@@ -34,6 +38,8 @@
 class Database
 {
 
+    private static $_instance = null;
+
     /**
      * The Database Handler Resource
      * @var Resource
@@ -46,24 +52,29 @@ class Database
      */
     private $_counter;
 
+    public static function getInstance()
+    {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new Database($GLOBALS['settings']['database']);
+        }
+        return self::$_instance;
+    }
+
     /**
      * Creates the Database Handler Resource using the appropriate details.
      */
-    public function __construct()
+    public function __construct($settings)
     {
+        $this->_dbh     = null;
+        $host           = $settings['host'];
+        $dbname         = $settings['dbname'];
+        $user           = $settings['user'];
+        $password       = $settings['pass'];
+        $dsn            = "mysql:host=$host;dbname=$dbname";
+        $this->_dbh     = new \PDO($dsn, $user, $password);
+        $this->_dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->_dbh->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
         $this->_counter = 0;
-        $this->_dbh     = NULL;
-    }
-
-    public function init($settings)
-    {
-        $host       = $settings['host'];
-        $dbname     = $settings['dbname'];
-        $user       = $settings['user'];
-        $password   = $settings['pass'];
-        $dsn        = "mysql:host=$host;dbname=$dbname";
-        $this->_dbh = new PDO($dsn, $user, $password);
-        $this->_dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     /**
@@ -87,9 +98,9 @@ class Database
         $statement = $this->_prepare($sql, $parameters);
         $statement->execute();
         try {
-            $results   = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $results = $statement->fetchAll(\PDO::FETCH_ASSOC);
             return $results;
-        } catch (PDOException $pdoe) {
+        } catch (\PDOException $pdoe) {
             //Do Nothing. Nothing to return.
         }
     }

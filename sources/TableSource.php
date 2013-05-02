@@ -1,6 +1,10 @@
 <?php
 
-class TableSource implements Source
+namespace framework\orm\sources;
+
+use framework\orm\support\SQLRender;
+
+class TableSource implements Source, SQLRender
 {
 
     private $_table;
@@ -20,8 +24,4 @@ class TableSource implements Source
         return "FROM `" . $this->_table . "` ";
     }
 
-    public function parameters()
-    {
-        return array();
-    }
 }

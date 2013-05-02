@@ -1,6 +1,10 @@
 <?php
 
-abstract class Complex extends Statement
+namespace framework\orm\support;
+
+use framework\orm\statements\Statement;
+
+class Complex extends Statement
 {
 
     protected $_filters;
@@ -39,7 +43,6 @@ abstract class Complex extends Statement
         return $this;
     }
 
-
     protected function _addParameters($parameters)
     {
         foreach ($parameters as $p) {
@@ -62,5 +65,5 @@ abstract class Complex extends Statement
         $this->_clauses = array();
         $this->_currentParameters = array();
     }
-    public abstract function render();
+
 }

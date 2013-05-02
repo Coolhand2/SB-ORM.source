@@ -17,6 +17,10 @@
  * @link       http://www.shiftedbits.net/
  */
 
+namespace framework\orm\support;
+
+use framework\orm\statements\Statement;
+
 /**
  * Query Class
  * This class provides an interface to perform the most basic of SQL
@@ -144,7 +148,7 @@ class Simple extends Statement
             $this->_sql[] = sprintf($sql, $this->_table, $column, $places);
             $parameters   = array();
             foreach ($value as $v) {
-                $parameters[] = array($column => $v);
+                $parameters[] = array($column              => $v);
             }
             $this->_parameters[] = $this->parameterize($parameters);
         } else {

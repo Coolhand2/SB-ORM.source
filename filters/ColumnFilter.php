@@ -1,6 +1,10 @@
 <?php
 
-class ColumnFilter implements Filter
+namespace framework\orm\filters;
+
+use framework\orm\support\SQLRender;
+
+class ColumnFilter implements Filter, SQLRender
 {
 
     private $_columns;

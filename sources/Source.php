@@ -1,8 +1,8 @@
 <?php
 
+namespace framework\orm\sources;
+
 interface Source
 {
-    public function render();
     public function getTableName();
-    public function parameters();
 }

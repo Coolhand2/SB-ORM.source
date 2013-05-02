@@ -1,16 +1,16 @@
 <?php
 
-class Alter extends Complex
+namespace framework\orm\statements;
+
+use framework\orm\support\SQLRender;
+use framework\orm\support\Complex;
+
+class Alter extends Complex implements SQLRender
 {
 
     public function render()
     {
         return "";
-    }
-
-    public function parameters()
-    {
-        return array();
     }
 
 }

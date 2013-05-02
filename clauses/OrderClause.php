@@ -1,6 +1,10 @@
 <?php
 
-class OrderClause implements Clause
+namespace framework\orm\clauses;
+
+use framework\orm\support\SQLRender;
+
+class OrderClause implements Clause, SQLRender
 {
 
     public function __construct($column, $direction = "DESC")
@@ -37,11 +41,6 @@ class OrderClause implements Clause
     {
         $columns = implode("`, `", $this->_columns);
         return "ORDER BY `$columns` $this->_direction ";
-    }
-
-    public function parameters()
-    {
-        return array();
     }
 
 }

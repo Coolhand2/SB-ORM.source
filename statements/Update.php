@@ -1,6 +1,12 @@
 <?php
 
-class Update extends Complex
+namespace framework\orm\statements;
+
+use framework\orm\support\SQLRender;
+use framework\orm\support\SQLParameter;
+use framework\orm\support\Complex;
+
+class Update extends Complex implements SQLRender, SQLParameter
 {
 
     private $_data;
@@ -13,10 +19,10 @@ class Update extends Complex
         $this->_values = array();
     }
 
-    public function addExpression($column, $value, $operator = "=" )
+    public function addExpression($column, $value, $operator = "=")
     {
         $this->_data[$column] = $operator;
-        $this->_values[] = $value;
+        $this->_values[]      = $value;
     }
 
     public function render()

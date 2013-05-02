@@ -1,7 +1,13 @@
 <?php
 
-class Insert extends Complex
+namespace framework\orm\statements;
+
+use framework\orm\support\SQLRender;
+use framework\orm\support\Complex;
+
+class Insert extends Complex implements SQLRender
 {
+
     public function render()
     {
         $sql = "INSERT ";
@@ -22,8 +28,4 @@ class Insert extends Complex
         return $sql;
     }
 
-    public function parameters()
-    {
-        return array();
-    }
 }

@@ -1,5 +1,10 @@
 <?php
 
+namespace framework\orm\sources;
+
+use framework\orm\support\SQLRender;
+use framework\orm\support\SQLParameter;
+
 class InnerJoinSource implements Source
 {
 
@@ -9,7 +14,7 @@ class InnerJoinSource implements Source
 
     public function __construct($table, $columnOne, $columnTwo)
     {
-        $this->_table = $table;
+        $this->_table      = $table;
         $this->_statements = array($columnOne, $columnTwo);
         $this->_operator = "=";
     }

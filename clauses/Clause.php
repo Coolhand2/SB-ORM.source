@@ -1,7 +1,8 @@
 <?php
 
+namespace framework\orm\clauses;
+
 interface Clause
 {
-    public function render();
-    public function parameters();
+
 }

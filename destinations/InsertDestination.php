@@ -1,8 +1,14 @@
 <?php
 
-class InsertDestination implements Destination
+namespace framework\orm\destinations;
+
+use framework\orm\support\SQLRender;
+
+class InsertDestination implements Destination, SQLRender
 {
+
     private $_table;
+
     public function __construct($table)
     {
         $this->_table = $table;
@@ -12,4 +18,10 @@ class InsertDestination implements Destination
     {
         return "INTO `" . $this->_table . "` ";
     }
+
+    public function parameters()
+    {
+        return array();
+    }
+
 }

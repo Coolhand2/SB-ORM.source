@@ -1,6 +1,12 @@
 <?php
 
-class InsertSource implements Source
+namespace framework\orm\sources;
+
+use framework\orm\support\SQLRender;
+use framework\orm\support\SQLParameter;
+
+
+class InsertSource implements Source, SQLRender, SQLParameter
 {
 
     private $_data;
@@ -29,7 +35,7 @@ class InsertSource implements Source
             $places         = array_fill(0, count($row), "?");
             $placeholders[] = implode(", ", $places);
         }
-        $placeholders = implode("), (", $placeholders);
+        $placeholders   = implode("), (", $placeholders);
         return "VALUES (" . $placeholders . ") ";
     }
 

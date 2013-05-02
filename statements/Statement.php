@@ -1,6 +1,11 @@
 <?php
 
-abstract class Statement
+namespace framework\orm\statements;
+
+use framework\orm\support\Database;
+use framework\orm\support\TableMock;
+
+class Statement
 {
 
     protected $_sql;
