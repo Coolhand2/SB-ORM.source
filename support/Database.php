@@ -35,22 +35,17 @@ use framework\orm\support\Database;
  * @version    Release: 1.0
  * @link       http://www.shiftedbits.net/
  */
-class Database
+class Database extends \PDO
 {
 
     private static $_instance = null;
-
-    /**
-     * The Database Handler Resource
-     * @var Resource
-     */
-    private $_dbh;
 
     /**
      * The Query Counter
      * @var Int
      */
     private $_counter;
+    private $_transaction;
 
     public static function getInstance()
     {
@@ -65,15 +60,15 @@ class Database
      */
     public function __construct($settings)
     {
-        $this->_dbh     = null;
         $host           = $settings['host'];
         $dbname         = $settings['dbname'];
         $user           = $settings['user'];
         $password       = $settings['pass'];
         $dsn            = "mysql:host=$host;dbname=$dbname";
-        $this->_dbh     = new \PDO($dsn, $user, $password);
-        $this->_dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this->_dbh->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
+        parent::__construct($dsn, $user, $password);
+        $this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
+        $this->_transaction = false;
         $this->_counter = 0;
     }
 
@@ -82,7 +77,7 @@ class Database
      */
     public function __destruct()
     {
-        $this->_dbh = NULL;
+        $this = null;
     }
 
     /**
@@ -110,19 +105,24 @@ class Database
         return $this->run($sql, $parameters);
     }
 
-    public function beginTransaction()
+    public function beginTransaction_()
     {
-        $this->_dbh->beginTransaction();
+        if (!$this->_transaction) {
+            $this->beginTransaction();
+            $this->_transaction = true;
+        }
     }
 
-    public function commit()
+    public function commit_()
     {
-        $this->_dbh->commit();
+        $this->_transaction = false;
+        $this->commit();
     }
 
-    public function rollback()
+    public function rollback_()
     {
-        $this->_dbh->rollBack();
+        $this->_transaction = false;
+        $this->rollBack();
     }
 
     /**
@@ -134,7 +134,7 @@ class Database
      */
     private function _prepare($sql, $parameters)
     {
-        $statement = $this->_dbh->prepare($sql);
+        $statement = $this->prepare($sql);
         foreach ($parameters as $k => $v) {
             $statement->bindParam($k + 1, $v['value'], $v['type']);
         }

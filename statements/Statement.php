@@ -33,7 +33,8 @@ class Statement
     {
         $returns = array();
         try {
-            $this->_connection->beginTransaction();
+            $this->_connection->beginTransaction_();
+
             if ($override === TRUE OR $this->_autorun === TRUE) {
                 foreach ($this->_sql as $index => $statement) {
                     $parameters = $this->_parameters[$index];
@@ -41,10 +42,10 @@ class Statement
                 }
             }
         } catch (PDOException $pdoe) {
-            $this->_connection->rollback();
+            $this->_connection->rollback_();
             throw $pdoe;
         }
-        $this->_connection->commit();
+        $this->_connection->commit_();
         $this->_parameters = array();
         $this->_sql = array();
         return $this->_filterReturns($returns);
